@@ -1,0 +1,57 @@
+# Build results
+[Bb]in/
+[Oo]bj/
+artifacts/
+publish/
+
+# Visual Studio / Rider / VS Code
+.vs/
+.idea/
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# .NET
+*.dll
+*.exe
+*.pdb
+*.cache
+*.deps.json
+*.runtimeconfig.json
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+.nuget/
+
+# WiX build output
+*.wixobj
+*.wixpdb
+*.msi
+*.msm
+*.msp
+*.cab
+
+# Logs / temp
+*.log
+*.tmp
+*.temp
+*.bak
+*.old
+~$*
+Thumbs.db
+Desktop.ini
+
+# Test results
+TestResults/
+coverage/
+*.coverage
+*.coveragexml
+
+# OS / tooling
+.DS_Store
+_ReSharper*/
+*.DotSettings.user

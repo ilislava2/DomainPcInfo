@@ -1,0 +1,42 @@
+name: build
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restore
+        run: dotnet restore .\DomainPcInfo.sln
+
+      - name: Build
+        run: dotnet build .\DomainPcInfo.sln -c Release --no-restore
+
+      - name: Publish x64
+        run: >-
+          dotnet publish .\src\DomainPcInfo\DomainPcInfo.csproj
+          -c Release
+          -r win-x64
+          --self-contained true
+          -p:PublishSingleFile=true
+          -o .\artifacts\publish\win-x64
+
+      - name: Upload application
+        uses: actions/upload-artifact@v4
+        with:
+          name: DomainPcInfo-win-x64
+          path: .\artifacts\publish\win-x64\

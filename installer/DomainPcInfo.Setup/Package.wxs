@@ -1,0 +1,70 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+
+  <Package
+      Name="DomainPcInfo"
+      Manufacturer="DomainPcInfo"
+      Version="$(var.ProductVersion)"
+      UpgradeCode="{7C74B261-57F4-4CC6-B805-86EB0EAF62D7}"
+      Scope="perMachine">
+
+    <!--
+        Один и тот же UpgradeCode должен использоваться
+        во всех будущих версиях DomainPcInfo.
+
+        НЕ МЕНЯТЬ:
+        {7C74B261-57F4-4CC6-B805-86EB0EAF62D7}
+    -->
+
+    <!--
+        Позволяет новой версии заменить старую.
+
+        Например:
+        1.0.0 -> 1.0.1
+    -->
+    <MajorUpgrade
+        DowngradeErrorMessage="A newer version of DomainPcInfo is already installed." />
+
+    <!-- Все файлы помещаем внутрь MSI -->
+    <MediaTemplate EmbedCab="yes" />
+
+    <!-- C:\Program Files\DomainPcInfo -->
+    <StandardDirectory Id="ProgramFiles6432Folder">
+
+      <Directory
+          Id="INSTALLFOLDER"
+          Name="DomainPcInfo">
+
+        <Component Id="DomainPcInfoComponent">
+
+          <!-- Основной EXE -->
+          <File
+              Id="DomainPcInfoExe"
+              Source="$(var.PublishDir)\DomainPcInfo.exe"
+              KeyPath="yes" />
+
+          <!-- Автозапуск -->
+          <RegistryValue
+              Root="HKLM"
+              Key="Software\Microsoft\Windows\CurrentVersion\Run"
+              Name="DomainPcInfo"
+              Type="string"
+              Value="&quot;[INSTALLFOLDER]DomainPcInfo.exe&quot;" />
+
+        </Component>
+
+      </Directory>
+
+    </StandardDirectory>
+
+    <Feature
+        Id="MainFeature"
+        Title="DomainPcInfo"
+        Level="1">
+
+      <ComponentRef Id="DomainPcInfoComponent" />
+
+    </Feature>
+
+  </Package>
+
+</Wix>

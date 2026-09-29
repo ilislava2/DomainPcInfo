@@ -1,0 +1,24 @@
+<Project Sdk="WixToolset.Sdk/6.0.2">
+
+  <PropertyGroup>
+
+    <InstallerPlatform>x64</InstallerPlatform>
+
+    <!--
+        Версия MSI.
+        Для следующего выпуска меняем, например:
+        1.0.0 -> 1.0.1 -> 1.0.2
+    -->
+    <ProductVersion>1.0.0</ProductVersion>
+
+    <!-- Имя итогового MSI -->
+    <OutputName>DomainPcInfo-x64-$(ProductVersion)</OutputName>
+
+    <DefineConstants>
+      PublishDir=$(MSBuildThisFileDirectory)..\..\artifacts\publish\win-x64;
+      ProductVersion=$(ProductVersion)
+    </DefineConstants>
+
+  </PropertyGroup>
+
+</Project>

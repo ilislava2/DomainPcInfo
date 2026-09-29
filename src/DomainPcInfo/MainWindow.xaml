@@ -1,0 +1,59 @@
+<Window x:Class="DomainPcInfo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="DomainPcInfo"
+
+        SizeToContent="WidthAndHeight"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ShowInTaskbar="False"
+        ResizeMode="NoResize"
+        Topmost="False"
+        WindowStartupLocation="Manual"
+
+        FontFamily="Segoe UI"
+        FontSize="16"
+        FontWeight="Normal"
+        Foreground="#FFF1DC">
+
+    <Border Background="Transparent"
+            Padding="4">
+
+        <StackPanel>
+
+            <TextBlock x:Name="ComputerNameText"
+                       Margin="0,1"/>
+
+            <TextBlock x:Name="JoinText"
+                       Margin="0,1"/>
+
+            <TextBlock x:Name="DcText"
+                       Margin="0,1"/>
+
+            <TextBlock x:Name="DcAvailabilityText"
+                       Margin="0,1"/>
+
+            <StackPanel x:Name="NetworkPanel"
+                        Margin="0,3,0,0"/>
+
+            <Button x:Name="RefreshButton"
+                    Width="30"
+                    Height="27"
+                    HorizontalAlignment="Left"
+                    Margin="5,5,0,0"
+                    Padding="0"
+                    FontFamily="Segoe UI Symbol"
+                    FontSize="19"
+                    FontWeight="Normal"
+                    Foreground="#FFF1DC"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Cursor="Hand"
+                    ToolTip="Обновить"
+                    Click="RefreshButton_Click">↻</Button>
+
+        </StackPanel>
+
+    </Border>
+</Window>
