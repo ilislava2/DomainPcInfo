@@ -1,3 +1,7 @@
+param(
+    [string]$ProductVersion = ''
+)
+
 $ErrorActionPreference = 'Stop'
 
 $Root = Split-Path -Parent $PSScriptRoot
@@ -6,6 +10,14 @@ $Project = Join-Path $Root 'src\DomainPcInfo\DomainPcInfo.csproj'
 $SetupProject = Join-Path $Root 'installer\DomainPcInfo.Setup\DomainPcInfo.Setup.wixproj'
 $PublishDir = Join-Path $Root 'artifacts\publish\win-x64'
 $SetupBinDir = Join-Path $Root 'installer\DomainPcInfo.Setup\bin'
+
+if ($ProductVersion) {
+    if ($ProductVersion -notmatch '^\d+\.\d+\.\d+$') {
+        throw ('Invalid ProductVersion: ' + $ProductVersion + '. Expected format: 1.2.3')
+    }
+
+    Write-Host ('Product version: ' + $ProductVersion)
+}
 
 Write-Host ''
 Write-Host '=== Cleaning previous publish ==='
@@ -62,6 +74,10 @@ $msiArgs = @(
     'Release'
     '-p:InstallerPlatform=x64'
 )
+
+if ($ProductVersion) {
+    $msiArgs += ('-p:ProductVersion=' + $ProductVersion)
+}
 
 & dotnet @msiArgs
 
