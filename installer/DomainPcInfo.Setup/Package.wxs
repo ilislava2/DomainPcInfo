@@ -7,27 +7,25 @@
       UpgradeCode="{7C74B261-57F4-4CC6-B805-86EB0EAF62D7}"
       Scope="perMachine">
 
-    <!--
-        Один и тот же UpgradeCode должен использоваться
-        во всех будущих версиях DomainPcInfo.
-
-        НЕ МЕНЯТЬ:
-        {7C74B261-57F4-4CC6-B805-86EB0EAF62D7}
-    -->
-
-    <!--
-        Позволяет новой версии заменить старую.
-
-        Например:
-        1.0.0 -> 1.0.1
-    -->
     <MajorUpgrade
         DowngradeErrorMessage="A newer version of DomainPcInfo is already installed." />
 
-    <!-- Все файлы помещаем внутрь MSI -->
     <MediaTemplate EmbedCab="yes" />
 
-    <!-- C:\Program Files\DomainPcInfo -->
+    <!-- Иконка для Windows Apps & Features и служебных ярлыков -->
+    <Icon
+        Id="DomainPcInfo.ico"
+        SourceFile="$(var.IconFile)" />
+
+    <Icon
+        Id="DomainPcInfo.exe"
+        SourceFile="$(var.IconFile)" /> 
+
+    <Property
+        Id="ARPPRODUCTICON"
+        Value="DomainPcInfo.ico" />
+
+    <!-- Основная программа -->
     <StandardDirectory Id="ProgramFiles6432Folder">
 
       <Directory
@@ -36,11 +34,26 @@
 
         <Component Id="DomainPcInfoComponent">
 
-          <!-- Основной EXE -->
           <File
               Id="DomainPcInfoExe"
               Source="$(var.PublishDir)\DomainPcInfo.exe"
-              KeyPath="yes" />
+              KeyPath="yes">
+
+            <!--
+                Иконку здесь НЕ указываем.
+                Ярлык автоматически использует иконку,
+                встроенную в DomainPcInfo.exe.
+            -->
+            <Shortcut
+                Id="DomainPcInfoStartMenuShortcut"
+                Name="DomainPcInfo"
+                Description="Информация о компьютере, домене, DC и сетевых интерфейсах"
+                Directory="DomainPcInfoProgramMenuFolder"
+                Advertise="yes"
+                WorkingDirectory="INSTALLFOLDER"
+                Icon="DomainPcInfo.exe" />
+
+          </File>
 
           <!-- Автозапуск -->
           <RegistryValue
@@ -56,12 +69,49 @@
 
     </StandardDirectory>
 
+    <!-- Меню Пуск -->
+    <StandardDirectory Id="ProgramMenuFolder">
+
+      <Directory
+          Id="DomainPcInfoProgramMenuFolder"
+          Name="DomainPcInfo">
+
+        <Component Id="DomainPcInfoUninstallShortcutComponent">
+
+          <Shortcut
+              Id="DomainPcInfoUninstallShortcut"
+              Name="Удалить DomainPcInfo"
+              Description="Удалить DomainPcInfo"
+              Target="[SystemFolder]msiexec.exe"
+              Arguments="/x [ProductCode]"
+              Icon="DomainPcInfo.ico" />
+
+          <RemoveFolder
+              Id="RemoveDomainPcInfoProgramMenuFolder"
+              Directory="DomainPcInfoProgramMenuFolder"
+              On="uninstall" />
+
+          <RegistryValue
+              Root="HKCU"
+              Key="Software\DomainPcInfo"
+              Name="UninstallShortcut"
+              Type="integer"
+              Value="1"
+              KeyPath="yes" />
+
+        </Component>
+
+      </Directory>
+
+    </StandardDirectory>
+
     <Feature
         Id="MainFeature"
         Title="DomainPcInfo"
         Level="1">
 
       <ComponentRef Id="DomainPcInfoComponent" />
+      <ComponentRef Id="DomainPcInfoUninstallShortcutComponent" />
 
     </Feature>
 
