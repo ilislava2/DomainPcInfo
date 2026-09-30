@@ -1,0 +1,95 @@
+﻿DomainPcInfo
+============
+
+ДЛЯ ЧЕГО
+--------
+
+DomainPcInfo показывает:
+- имя компьютера;
+- домен или рабочую группу;
+- текущий DC;
+- доступность DC по Ping;
+- активные физические сетевые интерфейсы и IPv4.
+
+Обновление выполняется при запуске, каждые 5 минут и вручную.
+
+
+СТРУКТУРА
+---------
+
+Проект можно клонировать в любой каталог.
+
+Основные папки:
+
+src\DomainPcInfo
+    Исходный код.
+
+installer\DomainPcInfo.Setup
+    MSI-установщик.
+
+scripts
+    Скрипты сборки и запуска.
+
+docs
+    Инструкции.
+
+.github\workflows
+    GitHub Actions.
+
+
+УСТАНОВКА
+---------
+
+Собрать MSI из корня репозитория:
+
+.\scripts\build-msi.ps1
+
+MSI создаётся в:
+
+installer\DomainPcInfo.Setup\bin\Release\
+
+Программа устанавливается в:
+
+C:\Program Files\DomainPcInfo\
+
+После установки программа добавляется в автозапуск и в меню Пуск.
+
+
+ЗАПУСК
+------
+
+Из исходников:
+
+dotnet run --project .\src\DomainPcInfo\DomainPcInfo.csproj
+
+Установленная версия:
+
+& "C:\Program Files\DomainPcInfo\DomainPcInfo.exe"
+
+
+ОСТАНОВКА
+---------
+
+При dotnet run:
+
+Ctrl + C
+
+Установленная версия:
+
+Get-Process DomainPcInfo -ErrorAction SilentlyContinue | Stop-Process
+
+
+УДАЛЕНИЕ
+--------
+
+Меню Пуск
+→ DomainPcInfo
+→ Удалить DomainPcInfo
+
+или:
+
+Параметры Windows
+→ Приложения
+→ Установленные приложения
+→ DomainPcInfo
+→ Удалить
